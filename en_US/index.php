@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta charset="utf-8" >
-<title>Generator grafiku</title>
+<title>Schedule generator</title>
 <style id="table_style">
     table, tr, th{
         border: 2px solid #ff6550;
@@ -59,7 +59,7 @@
 <script>
     function PrintTable() {
         var printWindow = window.open('', '', 'height=900,width=1200');
-        printWindow.document.write('<html><head><title>Generator grafików</title>');
+        printWindow.document.write('<html><head><title>Schedule generator</title>');
         var table_style = document.getElementById("table_style").innerHTML;
         printWindow.document.write('<style type = "text/css">');
         printWindow.document.write(table_style);
@@ -78,7 +78,6 @@
 </head>
 <body>
 <?php
-$miesiac = array( '', 'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień' );
 if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
     if(empty($_POST)){
         $monthChoosen = substr($_GET["mies"], 5);
@@ -89,9 +88,9 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
 
         $cspan = $days+1;
         echo '<table border="1px" id="tabela"><tr>';
-        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. $miesiac[date("n", strtotime($choosenDate))] . '</td></tr><tr>';
+        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. date("F", strtotime($choosenDate)) . '</td></tr><tr>';
         
-        echo '<td>Kto</td>';
+        echo '<td>Who</td>';
         for($x = 1; $x <= $days; $x++){
             if(date("N", strtotime($choosenDate. ' + '. ($x+1) . ' days')) >= 6){
                 echo '<td style="filter: brightness(60%);">'. $x .'</td>';
@@ -127,8 +126,8 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
         
 
         echo '</table><input name="ilo" type="text" value="'.$ilOs.'" style="display: none;">';
-        echo '<input type="submit" name="submit" value="Stwórz grafik!" style="width: 100%;">';
-        echo '</form><br><button onclick='. "'". 'window.open("index.php","_self")'. "'" .'>Od nowa!</button>';
+        echo '<input type="submit" name="submit" value="Generate schedule" style="width: 100%;">';
+        echo '</form><br><button onclick='. "'". 'window.open("index.php","_self")'. "'" .'>Go back!</button>';
 
     }else{
         $choosenDate = date("j-m-y");
@@ -136,9 +135,9 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
 
         $cspan = $days+1;
         echo '<div id="tabelka"><table border="1px" id="tabelaF"><tr>';
-        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. $miesiac[date("m", strtotime($choosenDate))] . '</td></tr><tr>';
+        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. date("F", strtotime($choosenDate)) . '</td></tr><tr>';
         
-        echo '<td>Kto</td>';
+        echo '<td>Who</td>';
         for($x = 1; $x <= $days; $x++){
             if(date("N", strtotime($choosenDate. ' + '. ($x+1) . ' days')) >= 6){
                 echo '<td style="filter: brightness(60%);">'. $x .'</td>';
@@ -226,9 +225,9 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
             if($przerabianyDzien >= $days){
                 break;
             }else if($security >= 50){
-                echo '<script>alert("Nie udało się zrobić grafiku*");</script>';
-                echo '<script>alert("Ta wiadomość została stworzona na wypadek gryby algorytm się zapętlił.");</script>';
-                echo '<script>alert("W takim wypadku może brakować osób do pokrycia zmian.");</script>';
+                echo '<script>alert("Could not create schedule");</script>';
+                echo '<script>alert("This message is generated when it takes too long to generate a schedule");</script>';
+                echo '<script>alert("It may be not enough people to cover the schedule");</script>';
                 break;
             }
         }
@@ -281,16 +280,16 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
             }
             echo '</tr>';
         }
-        echo '</table>stworzone za pomocą algorytmu autorstwa: Mateusz Błażejczyk
-        </div><br><button onclick='. "'". 'window.open("index.php","_self")'. "'" .'>Od nowa!</button><br>
-        <button onclick="PrintTable()">Drukuj ten grafik</button>';
+        echo '</table>generated with algorithm made by: Mateusz Błażejczyk
+        </div><br><button onclick='. "'". 'window.open("index.php","_self")'. "'" .'>Create new!</button><br>
+        <button onclick="PrintTable()">Print this schedule</button>';
     }
 }else{
     echo '
 <form action="index.php" method="get">
-Ilość osób: <input type="text" name="ilOs" required><br>
-Jaki miesiąc: <input type="month" name="mies" required><br>
-<input type="submit" value="dodaj niedyspozycje">
+How many people: <input type="text" name="ilOs" required><br>
+Month: <input type="month" name="mies" required><br>
+<input type="submit" value="add indispositions">
 </form>
 ';
 }
