@@ -1,6 +1,11 @@
 # Schedule generator
 It is a simple algorithm that generates schedules. It is completely randomized so rerolling generated schedules are a great feature.
 
+## Preview
+Languages:
+* [Polish](https://schedule.yellowsink.pl/)
+* [English](https://schedule.yellowsink.pl/en/)
+
 ## Type of schedule
 
 It is meant for jobs with 12h day/night shifts. For any other type of schedule generated this script is a good start.
