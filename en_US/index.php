@@ -99,7 +99,7 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
             }
         }
         echo '</tr>';
-        echo '<form name="form1" id="form1" method="post" action="index.php?ilOs=0">';
+        echo '<form name="form1" id="form1" method="post" action="index.php?ilOs=0&mies='.$_GET["mies"].'">';
 
         $ilOs = $_GET["ilOs"] - 1;
 
@@ -130,7 +130,9 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
         echo '</form><br><button onclick='. "'". 'window.open("index.php","_self")'. "'" .'>Go back!</button>';
 
     }else{
-        $choosenDate = date("j-m-y");
+        $monthChoosen = substr($_GET["mies"], 5);
+        $yearChoosen = substr($_GET["mies"], 0, 4);
+        $choosenDate = date("j-m-y", mktime(0, 0, 0, (int)$monthChoosen, date("d"), (int)$yearChoosen));
         $days = date("t", strtotime($choosenDate));
 
         $cspan = $days+1;
