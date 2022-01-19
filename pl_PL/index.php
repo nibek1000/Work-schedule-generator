@@ -74,6 +74,14 @@
         printWindow.document.close();
         printWindow.print();
     }
+
+    function change(a){
+        if(document.getElementById(a).innerText == ""){
+            document.getElementById(a).innerText = "12p";
+        }else{
+            document.getElementById(a).innerText = "";
+        }
+    }
 </script>
 </head>
 <body>
@@ -93,7 +101,7 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
         
         echo '<td>Kto</td>';
         for($x = 1; $x <= $days; $x++){
-            if(date("N", strtotime($choosenDate. ' + '. ($x+1) . ' days')) >= 6){
+            if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
                 echo '<td style="filter: brightness(60%);">'. $x .'</td>';
             }else{
                 echo '<td>'. $x .'</td>';
@@ -107,7 +115,7 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
         for($y = 0; $y <= $ilOs; $y++){
             echo '<tr><td rowspan="2"><input type="text" name="'.$y.'|i"></td>';
             for($x = 1; $x <= $days; $x++){
-                if(date("N", strtotime($choosenDate. ' + '. ($x+1) . ' days')) >= 6){
+                if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
                     echo '<td style="filter: brightness(60%);"><input type="checkbox" name="'.$y.'|'.$x.'|1"></td>';
                 }else{
                     echo '<td><input type="checkbox" name="'.$y.'|'.$x.'|1"></td>';
@@ -116,7 +124,7 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
             echo '</tr>';
             echo '<tr>';
             for($x = 1; $x <= $days; $x++){
-                if(date("N", strtotime($choosenDate. ' + '. ($x+1) . ' days')) >= 6){
+                if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
                     echo '<td style="filter: brightness(60%);"><input type="checkbox" name="'.$y.'|'.$x.'|2"></td>';
                 }else{
                     echo '<td><input type="checkbox" name="'.$y.'|'.$x.'|2"></td>';
@@ -138,11 +146,11 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
 
         $cspan = $days+1;
         echo '<div id="tabelka"><table border="1px" id="tabelaF"><tr>';
-        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. $miesiac[date("m", strtotime($choosenDate))] . '</td></tr><tr>';
+        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. $miesiac[date("n", strtotime($choosenDate))] . '</td></tr><tr>';
         
         echo '<td>Kto</td>';
         for($x = 1; $x <= $days; $x++){
-            if(date("N", strtotime($choosenDate. ' + '. ($x+1) . ' days')) >= 6){
+            if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
                 echo '<td style="filter: brightness(60%);">'. $x .'</td>';
             }else{
                 echo '<td>'. $x .'</td>';
@@ -235,51 +243,54 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
             }
         }
 
+        $idGen = 0;
         for($y = 0; $y <= $iloscOsob; $y++){
             echo '<tr><td rowspan="2">'. $zmiany[$y][0] .'</td>';
             for($x = 1; $x <= $days; $x++){
                 if($zmiany[$y][$x] == "1"){
-                    if(date("N", strtotime($choosenDate. ' + '. ($x+1) . ' days')) >= 6){
-                        echo '<td style="filter: brightness(60%);">12p</td>';
+                    if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
+                        echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')">12p</td>';
                     }else{
-                        echo '<td>12p</td>';
+                        echo '<td id="'.$idGen.'" onclick="change('.$idGen.')">12p</td>';
                     }
                 }else if($zmiany[$y][$x] == "2"){
-                    if(date("N", strtotime($choosenDate. ' + '. ($x+1) . ' days')) >= 6){
-                        echo '<td style="filter: brightness(60%);"></td>';
+                    if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
+                        echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }else{
-                        echo '<td></td>';
+                        echo '<td id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }
                 }else{
-                    if(date("N", strtotime($choosenDate. ' + '. ($x+1) . ' days')) >= 6){
-                        echo '<td style="filter: brightness(60%);"></td>';
+                    if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
+                        echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }else{
-                        echo '<td></td>';
+                        echo '<td id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }
                 }
+                $idGen++;
             }
             echo '</tr>';
             echo '<tr>';
             for($x = 1; $x <= $days; $x++){
                 if($zmiany[$y][$x] == "1"){
-                    if(date("N", strtotime($choosenDate. ' + '. ($x+1) . ' days')) >= 6){
-                        echo '<td style="filter: brightness(60%);"></td>';
+                    if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
+                        echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }else{
-                        echo '<td></td>';
+                        echo '<td id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }
                 }else if($zmiany[$y][$x] == "2"){
-                    if(date("N", strtotime($choosenDate. ' + '. ($x+1) . ' days')) >= 6){
-                        echo '<td style="filter: brightness(60%);">12p</td>';
+                    if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
+                        echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')">12p</td>';
                     }else{
-                        echo '<td>12p</td>';
+                        echo '<td id="'.$idGen.'" onclick="change('.$idGen.')">12p</td>';
                     }
                 }else{
-                    if(date("N", strtotime($choosenDate. ' + '. ($x+1) . ' days')) >= 6){
-                        echo '<td style="filter: brightness(60%);"></td>';
+                    if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
+                        echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }else{
-                        echo '<td></td>';
+                        echo '<td id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }
-                }            
+                }  
+                $idGen++;          
             }
             echo '</tr>';
         }
@@ -294,6 +305,15 @@ Ilość osób: <input type="text" name="ilOs" required><br>
 Jaki miesiąc: <input type="month" name="mies" required><br>
 <input type="submit" value="dodaj niedyspozycje">
 </form>
+<div style="position:absolute;
+   bottom:0;
+left: 0;
+   width:100%;
+   height:60px;
+    background-color: black;">
+    <div style="width: 50%; float: left;"><a href="https://yellowsink.pl/" style="width: 50%; color: white;">Yellowsink.pl</a></div>
+<div style="width: 50%; float: left; text-align: right;"><a href="https://yellowsink.pl/privacypolicy.html" style="color: white;">PrivacyPolicy</a></div>
+</div>
 ';
 }
 ?>
