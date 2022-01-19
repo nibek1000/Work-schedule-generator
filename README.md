@@ -23,6 +23,7 @@ Just upload selected language on your server.
 * Setting up any amount of people to schedule
 * indisposition to set in the schedule
 * rerolling schedules to generate new ones
+* easy way to edit schedule manually
 * printing clear version of the schedule
 * or even saving to pdf!
 
