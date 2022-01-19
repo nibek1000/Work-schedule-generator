@@ -24,6 +24,8 @@ Just upload selected language on your server.
 * indisposition to set in the schedule
 * rerolling schedules to generate new ones
 * easy way to edit schedule manually
+* dynamic working / month hours counter
+* dynamic 'full month covered' checker
 * printing clear version of the schedule
 * or even saving to pdf!
 
