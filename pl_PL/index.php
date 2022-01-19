@@ -76,11 +76,37 @@
     }
 
     function change(a){
+        var lH = document.getElementById("lacznieH").innerText.substr(document.getElementById("lacznieH").innerText.length - 3);
+        var iloscDni = parseInt(lH) / 24;
+        var wybranaOs = parseInt(((a) / iloscDni) / 2);
+        
+        var ilH = parseInt(document.getElementById("sumH" + wybranaOs).innerText.slice(0, -1));
+        
+
         if(document.getElementById(a).innerText == ""){
             document.getElementById(a).innerText = "12p";
+            document.getElementById("sumH" + wybranaOs).innerText = ilH + 12 + "h";
         }else{
             document.getElementById(a).innerText = "";
+            document.getElementById("sumH" + wybranaOs).innerText = ilH - 12 + "h";
         }
+
+        var temp = 0;
+        var total = 0;
+        while(true){
+            if(document.getElementById("sumH" + temp) !== null){
+                total += parseInt(document.getElementById("sumH" + temp).innerText.slice(0, -1));
+                temp++;
+            }else{
+                break;
+            }
+        }
+        if(total == lH){
+            document.getElementById("lacznieH").style["color"] = "black";
+        }else{
+            document.getElementById("lacznieH").style["color"] = "red";
+        }
+        document.getElementById("lacznieH").innerText = total + "/" + lH;
     }
 </script>
 </head>
@@ -146,7 +172,7 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
 
         $cspan = $days+1;
         echo '<div id="tabelka"><table border="1px" id="tabelaF"><tr>';
-        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. $miesiac[date("n", strtotime($choosenDate))] . '</td></tr><tr>';
+        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. $miesiac[date("n", strtotime($choosenDate))] . '</td><td rowspan="2">H / miesiąc</td></tr><tr>';
         
         echo '<td>Kto</td>';
         for($x = 1; $x <= $days; $x++){
@@ -245,6 +271,7 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
 
         $idGen = 0;
         for($y = 0; $y <= $iloscOsob; $y++){
+            $iloscH = 0;
             echo '<tr><td rowspan="2">'. $zmiany[$y][0] .'</td>';
             for($x = 1; $x <= $days; $x++){
                 if($zmiany[$y][$x] == "1"){
@@ -253,6 +280,7 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
                     }else{
                         echo '<td id="'.$idGen.'" onclick="change('.$idGen.')">12p</td>';
                     }
+                    $iloscH += 12;
                 }else if($zmiany[$y][$x] == "2"){
                     if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
                         echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
@@ -268,7 +296,7 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
                 }
                 $idGen++;
             }
-            echo '</tr>';
+            echo '<td rowspan="2" id="sumH'.$y.'" style="text-align: center;">-h</td></tr>';
             echo '<tr>';
             for($x = 1; $x <= $days; $x++){
                 if($zmiany[$y][$x] == "1"){
@@ -283,6 +311,7 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
                     }else{
                         echo '<td id="'.$idGen.'" onclick="change('.$idGen.')">12p</td>';
                     }
+                    $iloscH += 12;
                 }else{
                     if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
                         echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
@@ -292,8 +321,11 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
                 }  
                 $idGen++;          
             }
+            echo '<script>document.getElementById("sumH'.$y.'").innerText = "'.$iloscH.'h"</script>';
             echo '</tr>';
         }
+        echo '<tr><td colspan="'.($days + 1).'" style="text-align: right;">Łączna liczba pokrytych godzin:</td><td id="lacznieH">'.(24 * $days).'/'.(24 * $days).'</td></tr>';
+
         echo '</table>stworzone za pomocą algorytmu autorstwa: Mateusz Błażejczyk
         </div><br><button onclick='. "'". 'window.open("index.php","_self")'. "'" .'>Od nowa!</button><br>
         <button onclick="PrintTable()">Drukuj ten grafik</button>';
