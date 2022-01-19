@@ -171,7 +171,7 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
 
         $cspan = $days+1;
         echo '<div id="tabelka"><table border="1px" id="tabelaF"><tr>';
-        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. date("F", strtotime($choosenDate)) . '</td><td rowspan="2">H / miesiąc</td></tr><tr>';
+        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. date("F", strtotime($choosenDate)) . '</td><td rowspan="2">H / month</td></tr><tr>';
         
         echo '<td>Who</td>';
         for($x = 1; $x <= $days; $x++){
