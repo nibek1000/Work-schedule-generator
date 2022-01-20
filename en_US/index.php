@@ -323,7 +323,7 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
             echo '<script>document.getElementById("sumH'.$y.'").innerText = "'.$iloscH.'h"</script>';
             echo '</tr>';
         }
-        echo '<tr><td colspan="'.($days + 1).'" style="text-align: right;">Łączna liczba pokrytych godzin:</td><td id="lacznieH">'.(24 * $days).'/'.(24 * $days).'</td></tr>';
+        echo '<tr><td colspan="'.($days + 1).'" style="text-align: right;">Total hours covered:</td><td id="lacznieH">'.(24 * $days).'/'.(24 * $days).'</td></tr>';
 
         echo '</table>generated with algorithm made by: Mateusz Błażejczyk
         </div><br><button onclick='. "'". 'window.open("index.php","_self")'. "'" .'>Create new!</button><br>
