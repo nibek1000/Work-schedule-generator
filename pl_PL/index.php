@@ -117,17 +117,18 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
     if(empty($_POST)){
         $monthChoosen = substr($_GET["mies"], 5);
         $yearChoosen = substr($_GET["mies"], 0, 4);
-        $choosenDate = date("j-m-y", mktime(0, 0, 0, (int)$monthChoosen, date("d"), (int)$yearChoosen));
+        $choosenDate = mktime(0, 0, 0, (int)$monthChoosen, 1, (int)$yearChoosen);
 
         $days = date("t", strtotime($choosenDate));
 
         $cspan = $days+1;
         echo '<table border="1px" id="tabela"><tr>';
-        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. $miesiac[date("n", strtotime($choosenDate))] . '</td></tr><tr>';
-        
+        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. $miesiac[date("n", $choosenDate)] . '</td></tr><tr>';
+                
         echo '<td>Kto</td>';
         for($x = 1; $x <= $days; $x++){
-            if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
+            $tempDate = mktime(0, 0, 0, (int)$monthChoosen, $x, (int)$yearChoosen);
+            if(date("D", $tempDate) == 'Sat' || date("D", $tempDate) == 'Sun'){
                 echo '<td style="filter: brightness(60%);">'. $x .'</td>';
             }else{
                 echo '<td>'. $x .'</td>';
@@ -141,8 +142,9 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
         for($y = 0; $y <= $ilOs; $y++){
             echo '<tr><td rowspan="2"><input type="text" name="'.$y.'|i"></td>';
             for($x = 1; $x <= $days; $x++){
-                if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
-                    echo '<td style="filter: brightness(60%);"><input type="checkbox" name="'.$y.'|'.$x.'|1"></td>';
+                $tempDate = mktime(0, 0, 0, (int)$monthChoosen, $x, (int)$yearChoosen);
+                if(date("D", $tempDate) == 'Sat' || date("D", $tempDate) == 'Sun'){
+                        echo '<td style="filter: brightness(60%);"><input type="checkbox" name="'.$y.'|'.$x.'|1"></td>';
                 }else{
                     echo '<td><input type="checkbox" name="'.$y.'|'.$x.'|1"></td>';
                 }
@@ -150,8 +152,9 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
             echo '</tr>';
             echo '<tr>';
             for($x = 1; $x <= $days; $x++){
-                if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
-                    echo '<td style="filter: brightness(60%);"><input type="checkbox" name="'.$y.'|'.$x.'|2"></td>';
+                $tempDate = mktime(0, 0, 0, (int)$monthChoosen, $x, (int)$yearChoosen);
+                if(date("D", $tempDate) == 'Sat' || date("D", $tempDate) == 'Sun'){
+                        echo '<td style="filter: brightness(60%);"><input type="checkbox" name="'.$y.'|'.$x.'|2"></td>';
                 }else{
                     echo '<td><input type="checkbox" name="'.$y.'|'.$x.'|2"></td>';
                 }
@@ -167,16 +170,18 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
     }else{
         $monthChoosen = substr($_GET["mies"], 5);
         $yearChoosen = substr($_GET["mies"], 0, 4);
-        $choosenDate = date("j-m-y", mktime(0, 0, 0, (int)$monthChoosen, date("d"), (int)$yearChoosen));
-        $days = date("t", strtotime($choosenDate));
+        $choosenDate = mktime(0, 0, 0, (int)$monthChoosen, 1, (int)$yearChoosen);
+        $days = date("t", $choosenDate);
 
         $cspan = $days+1;
+        echo '<a style="color: gray;">*Możesz kliknąć w komórki by edytować przypisane zmiany</a>';
         echo '<div id="tabelka"><table border="1px" id="tabelaF"><tr>';
-        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. $miesiac[date("n", strtotime($choosenDate))] . '</td><td rowspan="2">H / miesiąc</td></tr><tr>';
+        echo '<td colspan="'.$cspan.'" style="text-align: center;">'. $miesiac[date("n", $choosenDate)] . '</td><td rowspan="2">H / miesiąc</td></tr><tr>';
         
         echo '<td>Kto</td>';
         for($x = 1; $x <= $days; $x++){
-            if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
+            $tempDate = mktime(0, 0, 0, (int)$monthChoosen, $x, (int)$yearChoosen);
+            if(date("D", $tempDate) == 'Sat' || date("D", $tempDate) == 'Sun'){
                 echo '<td style="filter: brightness(60%);">'. $x .'</td>';
             }else{
                 echo '<td>'. $x .'</td>';
@@ -275,21 +280,24 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
             echo '<tr><td rowspan="2">'. $zmiany[$y][0] .'</td>';
             for($x = 1; $x <= $days; $x++){
                 if($zmiany[$y][$x] == "1"){
-                    if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
-                        echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')">12p</td>';
+                    $tempDate = mktime(0, 0, 0, (int)$monthChoosen, $x, (int)$yearChoosen);
+                    if(date("D", $tempDate) == 'Sat' || date("D", $tempDate) == 'Sun'){
+                                echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')">12p</td>';
                     }else{
                         echo '<td id="'.$idGen.'" onclick="change('.$idGen.')">12p</td>';
                     }
                     $iloscH += 12;
                 }else if($zmiany[$y][$x] == "2"){
-                    if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
-                        echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
+                    $tempDate = mktime(0, 0, 0, (int)$monthChoosen, $x, (int)$yearChoosen);
+                    if(date("D", $tempDate) == 'Sat' || date("D", $tempDate) == 'Sun'){
+                                echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }else{
                         echo '<td id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }
                 }else{
-                    if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
-                        echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
+                    $tempDate = mktime(0, 0, 0, (int)$monthChoosen, $x, (int)$yearChoosen);
+                    if(date("D", $tempDate) == 'Sat' || date("D", $tempDate) == 'Sun'){
+                                echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }else{
                         echo '<td id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }
@@ -300,21 +308,24 @@ if(!empty($_GET["ilOs"]) || !empty($_POST["0|i"])){
             echo '<tr>';
             for($x = 1; $x <= $days; $x++){
                 if($zmiany[$y][$x] == "1"){
-                    if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
-                        echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
+                    $tempDate = mktime(0, 0, 0, (int)$monthChoosen, $x, (int)$yearChoosen);
+                    if(date("D", $tempDate) == 'Sat' || date("D", $tempDate) == 'Sun'){
+                                echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }else{
                         echo '<td id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }
                 }else if($zmiany[$y][$x] == "2"){
-                    if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
-                        echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')">12p</td>';
+                    $tempDate = mktime(0, 0, 0, (int)$monthChoosen, $x, (int)$yearChoosen);
+                    if(date("D", $tempDate) == 'Sat' || date("D", $tempDate) == 'Sun'){
+                                echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')">12p</td>';
                     }else{
                         echo '<td id="'.$idGen.'" onclick="change('.$idGen.')">12p</td>';
                     }
                     $iloscH += 12;
                 }else{
-                    if(date("N", strtotime($choosenDate. ' + '. ($x+3) . ' days')) >= 6){
-                        echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
+                    $tempDate = mktime(0, 0, 0, (int)$monthChoosen, $x, (int)$yearChoosen);
+                    if(date("D", $tempDate) == 'Sat' || date("D", $tempDate) == 'Sun'){
+                                echo '<td style="filter: brightness(60%);" id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }else{
                         echo '<td id="'.$idGen.'" onclick="change('.$idGen.')"></td>';
                     }
